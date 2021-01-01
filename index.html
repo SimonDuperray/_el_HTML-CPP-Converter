@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h2 {
+            margin: 0;
+        }
+        header {
+            text-align: center
+        }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        header nav ul li {
+            display: inline-block;
+            padding: 0 15px;
+        }
+        header nav ul li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        section {
+            height: 100vh;
+        }
+        section#lights {
+            background-color: crimson;
+        }
+        section#lights #intensity_container {
+            padding: 15px 0;
+        }
+        section#sensors {
+            background-color: yellow;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        section#sensors ul#sensors_data {
+            font-size: 35px;
+        }
+        section#sensors ul#sensors_data {
+            list-style: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Automation-Lights</title>
+</head>
+<body>
+    <section class="section" id="lights">
+        <div id="intensity_container">
+            <a href="/LED=100"><button class="intensity">100%</button></a>
+            <a href='/LED=75'><button class="intensity">75%</button></a>
+            <a href='/LED=50'><button class="intensity">50%</button></a>
+            <a href='LED=25'><button class="intensity">25%</button></a>
+            <a href='LED=0'><button class="intensity">0%</button></a>
+        </div>
+        <a href="/LED=NOTIF"><button class="notif">Notification</button></a>
+        <div id="color_picker">
+            <input type="color" id="color">
+            <input id="red" type="text" placeholder="red">
+            <input id="green" type="text" placeholder="green">
+            <input id="blue" type="text" placeholder="blue">
+            <a href=""><button>Valid</button></a>
+        </div>
+    </section>
+    <section class="section" id="sensors">
+        <ul id="sensors_data">
+            <div class="inline">
+                <li class="sensor">Temperature: <p id="temperature">25</p>°C</li>
+            </div>
+            <li class="sensor">Humidity: </li>
+            <li class="sensor">Luminosité: </li>
+            <li class="sensor">Last Movement: </li>
+        </ul>
+    </section>
+    <script>
+        const hexToRGB = (hex) => {
+            var c;
+            if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+                c=hex.substring(1).split('');
+                if(c.length==3){
+                    c=[c[0], c[0], c[1], c[1], c[2], c[2]];
+                }
+                c='0x'+c.join('');
+                return [(c>>16)&255, (c>>8)&255, c&255].join(',');
+            }
+            throw new Error("Bad hex");
+        }
+        redInput = document.querySelector("#red");greenInput = document.querySelector("#green");blueInput = document.querySelector("#blue");
+        colorPicker = document.querySelector("#color");
+        colorPicker.addEventListener('input', () => {
+            let color = colorPicker.value;
+            rgbColor = hexToRGB(color);
+            redInput.value = rgbColor.split(',')[0];
+            greenInput.value = rgbColor.split(',')[1];
+            blueInput.value = rgbColor.split(',')[2];
+        })
+    </script>
+</body>
+</html>
